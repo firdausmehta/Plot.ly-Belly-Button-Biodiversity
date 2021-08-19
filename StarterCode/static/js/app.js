@@ -52,3 +52,29 @@ function buildPlots(id) {
             });
         }
         // console.log(Data);
+
+        // Sorting the data and slicing for top10
+        var Sorted = Data.sort(function sortFunction(a,b){
+            return b.value - a.value;
+        }).slice(0,10);
+        // console.log(Sorted)
+
+        // Since horizontal bar chart, need to reverse to display from top to bottom in descending order
+        var reversed = Sorted.sort(function sortFunction(a,b){
+            return a.value - b.value;
+        })
+        // console.log(reversed);
+
+        // Trace for Horizontal Bar Chart
+        var colors = ['#fff100', '#ff8c00', '#e81123', '#ec008c', '#68217a', '#00188f', '#00bcf2', '#00b294', '#009e49', '#bad80a']
+        var traceBar = {
+            type: "bar",
+            orientation: 'h',
+            x: reversed.map(row=> row.value),
+            y: reversed.map(row => row.id),
+            text: reversed.map(row => row.label),
+            mode: 'markers',
+            marker: {
+                color: colors
+            }
+          };
