@@ -78,3 +78,44 @@ function buildPlots(id) {
                 color: colors
             }
           };
+
+          var Bardata = [traceBar];
+          
+        var Barlayout = {
+            title: `<span style='font-size:1em; color:#00bcf2'><b>Top 10 OTUs for Subject ${id}<b></span>`,
+            xaxis: {autorange: true, title: 'Sample Values'},
+            yaxis: {autorange: true},
+            width: 500,
+            height: 500
+          };
+        
+        // Creating the Horizontal Bar Chart
+        Plotly.newPlot("bar", Bardata, Barlayout);
+
+        // Bubble Chart
+        var traceBubble = {
+            x: result.otu_ids,
+            y: result.sample_values,
+            mode: 'markers',
+            marker: {
+                size: result.sample_values,
+                color: result.otu_ids,
+                colorscale: 'Jet'
+            },
+            text: result.otu_labels
+        };
+
+        var Bubbledata = [traceBubble]
+
+        var Bubblelayout = {
+            title: `<span style='font-size:1em; color:#00bcf2'><b>OTU Data for Subject ${id}<b></span>`,
+            xaxis: {title:'OTU ID'},
+            yaxis: {title: 'Sample Values'},
+            width: window.width
+        };
+
+        // Creating Bubble Chart
+        Plotly.newPlot('bubble', Bubbledata, Bubblelayout);
+
+    }).catch(error => console.log(error));
+}
