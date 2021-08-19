@@ -119,3 +119,29 @@ function buildPlots(id) {
 
     }).catch(error => console.log(error));
 }
+
+// Cleaning up the demographic keys
+function proper(str){
+    return str.toLowerCase().split(' ').map(letter => {
+        return (letter.charAt(0).toUpperCase() + letter.slice(1));
+    }).join(' ');
+}
+
+// Demographics
+function demographics(id) {
+    // To build the demographics section we need to import the data again
+    d3.json('samples.json').then(function(samplesData){
+        var filtered = samplesData.metadata.filter(sample => sample.id == id);
+        
+        // Selecting the meta-data id on the html page
+        var selection = d3.select('#sample-metadata');
+
+        // Clear any data already present
+        selection.html('');
+
+        // Appending data extracted into the panel
+        Object.entries(filtered[0]).forEach(([k,v]) => {
+            // console.log(k,v)
+            selection.append('h5')
+                .text(`${proper(k)}: ${v}`);
+        });
